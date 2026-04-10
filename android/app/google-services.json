@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "589498492064",
+    "firebase_url": "https://firetest-mo-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "firetest-mo",
     "storage_bucket": "firetest-mo.firebasestorage.app"
   },

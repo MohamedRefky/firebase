@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase/core/real_time_database.dart';
+import 'package:firebase/service/notification_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'firebase_options.dart';
 
@@ -10,6 +11,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FirebaseAuth.instance.setLanguageCode("en");
+  FirebaseMessaging.onMessage.listen((message) {
+    print("Message: ${message.notification?.title}");
+  });
   runApp(const MyApp());
 }
 
@@ -90,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
               SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () async {
-                  await RealTimeDatabase().updateData();
+                  await NotificationService.init();
                 },
                 child: const Text('Send OTP'),
               ),
@@ -101,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   app: Firebase.app(),
                   databaseURL:
                       'https://firetest-mo-default-rtdb.europe-west1.firebasedatabase.app/',
-                ).ref("users/123").onValue,
+                ).ref("users/1").onValue,
                 builder: (context, snapshot) {
                   // Loading
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -125,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                   return Center(
                     child: Text(
-                      "Realtime Data:\n${data["age"]}\n${data["address"]}",
+                      "Realtime Data:\n${data["age"]}\n${data["address"]["line1"]}\n${data["address"]}",
                       textAlign: TextAlign.center,
                     ),
                   );

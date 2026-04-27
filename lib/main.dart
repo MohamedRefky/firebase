@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+
 import 'firebase_options.dart';
 
 void main() async {
@@ -94,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
               SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () async {
-                  await NotificationService.init();
+                  await NotificationService().getToken();
                 },
                 child: const Text('Send OTP'),
               ),
